@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-8" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+                <div class="card card-body">
+                    <h3> 签 到 </h3>
+                    <h6>看到画面上有自己的名字的英文后再按【q】退出</h6>
+                    <hr>
+                    <form class="form-horizontal layui-form" method="POST">
+                        {% csrf_token %}
+                        <div class="layui-form-item">
+                            <label for="id" class="layui-form-label">学号：</label>
+                            <div class="layui-input-block">
+                                <input id="id" type="text" name="id" lay-verify="title" autocomplete="off"
+                                       placeholder="请输入学号" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="name" class="layui-form-label">姓名：</label>
+                            <div class="layui-input-block">
+                                <input id="name" type="text" name="name" lay-verify="title" autocomplete="off"
+                                       placeholder="请输入姓名" class="layui-input">
+                            </div>
+                        </div>
+                        <button id="attendance" type="submit" class="layui-btn layui-btn-fluid layui-btn-normal">签到</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+                <div class="card card-body">
+                    <center><h3>签到情况</h3></center>
+                    <table class=" layui-table">
+                        <tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                        </tr>
+                        {% for attendance in attendances %}
+                            <tr
+                                    {% if attendance.status == '未签到' %}
+                                        style="background: rgba(200,20,60,0.1)"
+                                    {% else %}
+                                        style="background: rgba(0,255,127,0.1)"
+                                    {% endif %}
+                            >
+                                <td>{{ attendance.student_id }}</td>
+                                <td>{{ attendance.name }}</td>
+                                <td>
+                                    {% if attendance.status == '未签到' %}
+                                        {% else %}{{ attendance.time }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ attendance.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <script type="text/html" id="barDemo1">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">工具性按钮</a>
+                    </script>
+                    <script>
+                        layui.use('table', function () {
+                            var table = layui.table;
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
