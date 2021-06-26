@@ -8,3 +8,11 @@ conda create -n your_env_name python=3.6
 conda activate your_env_name
 pip install requirements.txt
 ```
+
+## 结果
+
+![before](https://github.com/sleepyyoung/AttendanceSystem/blob/master/result/before.png)
+
+![ing](https://github.com/sleepyyoung/AttendanceSystem/blob/master/result/ing.png)
+
+![after](https://github.com/sleepyyoung/AttendanceSystem/blob/master/result/after.png)
